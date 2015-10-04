@@ -1,13 +1,14 @@
 # CVEXX-XX
-Already fixed unknown  Windows kernel vulnerability(win32k.sys)
 
-i just found  this Bug Independently , and it was fixed in last windows update.  i dont  know related CVE.
+i just found Windows kernel vulnerability in win32k.sys Driver ,  i think bug is fixed in last update of windows ,i dont know related CVE.
+
+An attacker who successfully exploited this vulnerability could run arbitrary code in kernel mode
 
 ****
 https://twitter.com/R00tkitSMM (firozimaysam@gmail.com) telegram username : https://telegram.me/firozi
 
 
-Exploiting  this Bug is so trivial there was  multiple methods  to Exploit it ( for example Find ACL of winlogon.exe and Zero It)
+Exploiting  this Bug is so trivial, there was  multiple methods  to Exploit it ( for example Find ACL of winlogon.exe and Zero It)
 
 ```
 win32k!HMUnlockObject:
