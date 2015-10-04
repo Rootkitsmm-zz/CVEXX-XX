@@ -98,10 +98,12 @@ static LRESULT CALLBACK WndProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPa
  {
         //CHECK IF PREVIOUS ISTANCE IS RUNNING.-----------------------------------------------------
         HWND hPrev = NULL;
-        if ( hPrev = FindWindow( THIS_CLASSNAME, TEXT("Title") ) ) {
-        MessageBox(NULL, TEXT("Previous instance alredy running!"), TEXT("Warning"), MB_OK );
-       	return 0;
-}
+        if ( hPrev = FindWindow( THIS_CLASSNAME, TEXT("Title") ) ) 
+        {
+	     MessageBox(NULL, TEXT("Previous instance alredy running!"), TEXT("Warning"), MB_OK );
+       		return 0;
+        }
+
         
    //REGISTER WINDOW.--------------------------------------------------------------------------
    WNDCLASSEX wclx; 
