@@ -1,6 +1,8 @@
 # CVEXX-XX
 
-i just found Windows kernel vulnerability in win32k.sys Driver , the bug is fixed in last update of windows , also i dont know related CVE of the bug.
+i just found Windows kernel vulnerability in win32k.sys Driver , the bug is fixed in kb2998812 without even mentioning there was a vulnerability in win32k.sys 
+
+
 
 An attacker who successfully exploited this vulnerability could run arbitrary code in kernel mode
 
