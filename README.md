@@ -1,4 +1,8 @@
 # CVEXX-XX
+****
+https://twitter.com/R00tkitSMM (firozimaysam@gmail.com) telegram username : https://telegram.me/firozi
+
+
 
 i just found Windows kernel vulnerability in win32k.sys Driver , the bug is fixed in kb2998812 without even mentioning there was a vulnerability in win32k.sys 
 
@@ -8,9 +12,6 @@ MS use safe_cast_fnid_o_PMENUWND to check return value of xxxCreatewindowEx  to 
 
 
 An attacker who successfully exploited this vulnerability could run arbitrary code in kernel mode
-
-****
-https://twitter.com/R00tkitSMM (firozimaysam@gmail.com) telegram username : https://telegram.me/firozi
 
 
 Exploiting  this Bug is so trivial, there was  multiple methods  to Exploit it ( for example Find ACL of winlogon.exe and Zero It)
