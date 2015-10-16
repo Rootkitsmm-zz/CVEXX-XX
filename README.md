@@ -4,6 +4,8 @@ i just found Windows kernel vulnerability in win32k.sys Driver , the bug is fixe
 
 so it seems Microsoft  fix some bugs without talks about it :) 
 
+MS use safe_cast_fnid_o_PMENUWND to check return value of xxxCreatewindowEx  to kill 0Day silently 
+
 
 An attacker who successfully exploited this vulnerability could run arbitrary code in kernel mode
 
