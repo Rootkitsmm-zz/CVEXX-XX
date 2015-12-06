@@ -3,6 +3,7 @@
 https://twitter.com/R00tkitSMM (firozimaysam@gmail.com) telegram username : https://telegram.me/firozi
 
 
+UPDATE: file New-BSOD-win32k.sys is "!analyze -v" output for another unknown BSOD in win32k.sys 
 
 i just found Windows kernel vulnerability in win32k.sys Driver , the bug is fixed in kb2998812 without even mentioning there was a vulnerability in win32k.sys 
 
