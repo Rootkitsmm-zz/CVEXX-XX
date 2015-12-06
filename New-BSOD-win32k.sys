@@ -1,0 +1,66 @@
+2: kd> !analyze -v
+Page a5702 not present in the dump file. Type ".hh dbgerr004" for details
+*******************************************************************************
+*                                                                             *
+*                        Bugcheck Analysis                                    *
+*                                                                             *
+*******************************************************************************
+
+BAD_POOL_CALLER (c2)
+The current thread is making a bad pool request.  Typically this is at a bad IRQL level or double freeing the same allocation, etc.
+Arguments:
+Arg1: 00000007, Attempt to free pool which was already freed
+Arg2: 00001097, (reserved)
+Arg3: 00000000, Memory contents of the pool block
+Arg4: 0000012d, Address of the block of pool being deallocated
+
+Debugging Details:
+------------------
+
+Page a6393 not present in the dump file. Type ".hh dbgerr004" for details
+
+BUGCHECK_STR:  0xc2_7
+
+DEFAULT_BUCKET_ID:  INTEL_CPU_MICROCODE_ZERO
+
+PROCESS_NAME:  0day.exe
+
+CURRENT_IRQL:  2
+
+LAST_CONTROL_TRANSFER:  from 91371695 to 817571b6
+
+STACK_TEXT:  
+a84ebc18 91371695 0000012d 00000000 9145e480 nt!ExFreePoolWithTag+0x1b1
+a84ebc2c 91379ed8 0000012d 00000131 00000000 win32k!MNFreePopup+0x95
+a84ebc44 9137f4fe 00000001 fea24e40 000c01fb win32k!xxxMNEndMenuState+0x36
+a84ebca0 913758a5 fea24e40 00000182 0000002e win32k!xxxTrackPopupMenuEx+0x3b0
+a84ebd14 8167b42a 000c01fb 00000182 0000002e win32k!NtUserTrackPopupMenuEx+0xc3
+a84ebd14 778264f4 000c01fb 00000182 0000002e nt!KiFastCallEntry+0x12a
+WARNING: Frame IP not in any known module. Following frames may be wrong.
+0012f4f0 00000000 00000000 00000000 00000000 0x778264f4
+
+
+STACK_COMMAND:  kb
+
+FOLLOWUP_IP: 
+win32k!MNFreePopup+95
+91371695 5e              pop     esi
+
+SYMBOL_STACK_INDEX:  1
+
+SYMBOL_NAME:  win32k!MNFreePopup+95
+
+FOLLOWUP_NAME:  MachineOwner
+
+MODULE_NAME: win32k
+
+IMAGE_NAME:  win32k.sys
+
+DEBUG_FLR_IMAGE_TIMESTAMP:  4a5bc2a2
+
+FAILURE_BUCKET_ID:  0xc2_7_win32k!MNFreePopup+95
+
+BUCKET_ID:  0xc2_7_win32k!MNFreePopup+95
+
+Followup: MachineOwner
+---------
